@@ -1,0 +1,46 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+.DIV {
+    margin: 10px;
+    padding: 5px;
+    border: solid black 1px;
+    border-radius: 5px;
+    background-color: lightblue;
+    color: black;
+}
+
+ul {
+    list-style: none;
+}
+
+#apiKey{
+    margin-left: 5px;
+}
+
+#addBookForm {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+#addBookBtn {
+    width: 50%;
+    margin-bottom: 5px;
+}
+
+#addBookForm input{
+}
+
+#books {
+    background-color: aliceblue;
+    border: solid black 1px;
+    border-radius: 5px;
+    padding: 5px;
+}

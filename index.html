@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lab4</title>
+        <meta charset = "utf-8">
+        <link href = "style.css" rel = "stylesheet">
+    </head>
+    <body>
+        
+        <div class = "DIV">
+            <form>
+                <input type="button" value = "Request API key" id = "requestBtn">
+            </form>
+            Received:<span id = "apiKey"></span>
+        </div>
+        
+        <div class = "DIV">
+            <form id = "addBookForm">
+                <input type = "button" value = "Add Book" id = "addBookBtn">
+                <input type = "text" placeholder = "Title" id = "titleBox">
+                <input type = "text" placeholder = "Author" id = "authorBox">
+            </form>
+        </div>
+        
+        <div class = "DIV">
+            <form>
+                <input type="button" value = "View Books" id = "viewBookBtn">
+            </form>
+            <div id = "listOfBooks">
+            </div>
+        </div>
+        
+        <script type = "text/javascript" src = "src.js"></script>
+    </body>
+</html>
