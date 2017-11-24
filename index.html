@@ -6,7 +6,7 @@
         <link href = "style.css" rel = "stylesheet">
     </head>
     <body>
-        
+        <h1 id = "header">Bokkatalog</h1>
         <div class = "DIV">
             <form>
                 <input type="button" value = "Request API key" id = "requestBtn">
@@ -28,6 +28,15 @@
             </form>
             <div id = "listOfBooks">
             </div>
+        </div>
+        
+        <div class = "DIV">
+            <form id = "changeBookForm">
+                <input type = "button" value = "Change Book" id = "changeBtn">
+                <input type = "text" placeholder="ID" id = "changeID">
+                <input type = "text" placeholder="Title" id = "changeTitle">
+                <input type = "text" placeholder="Author" id = "changeAuthor">
+            </form>
         </div>
         
         <script type = "text/javascript" src = "src.js"></script>

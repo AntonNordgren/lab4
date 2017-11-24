@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+#header {
+    text-align: center;
+}
+
 body {
     background-color: aliceblue;
 }
@@ -25,7 +29,7 @@ ul {
     margin-left: 5px;
 }
 
-#addBookForm {
+#addBookForm, #changeBookForm {
     display: inline-flex;
     flex-direction: column;
 }
