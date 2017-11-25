@@ -3,6 +3,7 @@ let url = "https://www.forverkliga.se/JavaScript/api/crud.php";
 let ajax = new XMLHttpRequest();
 let requestBtn = document.getElementById("requestBtn");
 let addBookBtn = document.getElementById("addBookBtn");
+let addBookMessage = document.getElementById("addBookMessage");
 let apiKey = document.getElementById("apiKey");
 let receivedKey = "No key requested yet";
 
@@ -20,7 +21,6 @@ let deleteBookId = document.getElementById("deleteBookID");
 let unsuccessfulAPIcalls = 0;
 
 window.addEventListener("load", function(event) {
-    apiKey.innerHTML = receivedKey;
     ajax.open('get', url);
     ajax.send();
 });
@@ -43,13 +43,25 @@ addBookBtn.addEventListener('click', function(event) {
     let title = titleBox.value;
     let author = authorBox.value;
     
-    ajax.open('get', url + "?op=insert&key=" + receivedKey + "&title=" + title + "&author=" + author);
-    ajax.onreadystatechange = function(event) {
-        if(ajax.readyState == 4 && ajax.status == 200) {
-            console.log(ajax.responseText);
-        }
+    if(title == "" || author == "" || title == "" && author == ""){
+        addBookMessage.innerHTML = "Please Enter valid input";
     }
-    ajax.send();
+    else{
+        addBookMessage.innerHTML = "Valid Input!";
+        ajax.open('get', url + "?op=insert&key=" + receivedKey + "&title=" + title + "&author=" + author);
+        ajax.onreadystatechange = function(event) {
+            if(ajax.readyState == 4 && ajax.status == 200) {
+                let jsonObject = JSON.parse(ajax.responseText);
+                if(jsonObject.status == "error") {
+                    addBookMessage.innerHTML = "Error message: " + jsonObject.message + " Please try again!";
+                }
+                else{
+                    addBookMessage.innerHTML = "Book Stored with ID = " + jsonObject.id;
+                }
+            }
+        }
+        ajax.send();
+    }
 });
 
 viewBookBtn.addEventListener("click", function(event) {
