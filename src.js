@@ -14,6 +14,9 @@ let viewBookBtn = document.getElementById("viewBookBtn");
 
 let changeBtn = document.getElementById("changeBtn");
 
+let deleteBtn = document.getElementById("deleteBtn");
+let deleteBookId = document.getElementById("deleteBookID");
+
 let unsuccessfulAPIcalls = 0;
 
 window.addEventListener("load", function(event) {
@@ -60,7 +63,7 @@ viewBookBtn.addEventListener("click", function(event) {
             
             let result = "";
             for(let i = 0; i < jsonObject.data.length; i++) {
-                result += "#" + (i+1) + ", " + jsonObject.data[i].title + " by " + jsonObject.data[i].author + "<br>";
+                result += "#" + (i+1) + ", " + jsonObject.data[i].title + " by " + jsonObject.data[i].author + ", ID: " + jsonObject.data[i].id + "<br>";
             }
             listOfBooks.innerHTML = result;
         }
@@ -82,7 +85,16 @@ changeBtn.addEventListener('click', function(event) {
     ajax.send();
 });
 
-
+deleteBtn.addEventListener("click", function(event) {
+    let id = document.getElementById("deleteBookID").value;
+    ajax.open("get", url + "?op=delete&key=" + receivedKey + "&id=" + id);
+    ajax.onreadystatechange = function(event) {
+        if(ajax.readyState == 4 && ajax.status == 200) {
+            console.log(ajax.responseText);
+        }
+    }
+    ajax.send();
+});
 
 
 
