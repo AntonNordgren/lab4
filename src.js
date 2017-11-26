@@ -53,6 +53,8 @@ addBookBtn.addEventListener('click', function(event) {
                 let jsonObject = JSON.parse(ajax.responseText);
                 if(jsonObject.status == "error") {
                     addBookMessage.innerHTML = "Error message: " + jsonObject.message + " Please try again!";
+                    unsuccessfulAPIcalls++;
+                    console.log("Nr of errors " + unsuccessfulAPIcalls);
                 }
                 else{
                     addBookMessage.innerHTML = "Book Stored with ID = " + jsonObject.id;
@@ -71,7 +73,10 @@ viewBookBtn.addEventListener("click", function(event) {
             
             let jsonObject = JSON.parse(ajax.responseText);
             let result = "";
-            
+            if(jsonObject.status != "success"){
+                unsuccessfulAPIcalls++;
+                console.log("Nr of Errors: " + unsuccessfulAPIcalls);
+            }
             if(jsonObject.status != "success" || jsonObject.data == undefined){
                 listOfBooks.innerHTML = jsonObject.message + " Please try again!";
             }
@@ -97,6 +102,12 @@ changeBtn.addEventListener('click', function(event) {
              "&id=" + id + "&title=" + title + "&author=" + author);
     ajax.onreadystatechange = function(event) {
         if(ajax.readyState == 4 && ajax.status == 200){
+            let jsonObject = JSON.parse(ajax.responseText);
+            if(jsonObject.status != "success"){
+                unsuccessfulAPIcalls++;
+                console.log("Nr of Errors: " + unsuccessfulAPIcalls);
+            }
+            
             console.log(ajax.responseText);
         }
     }
@@ -109,6 +120,11 @@ deleteBtn.addEventListener("click", function(event) {
     ajax.onreadystatechange = function(event) {
         if(ajax.readyState == 4 && ajax.status == 200) {
             console.log(ajax.responseText);
+            let jsonObject = JSON.parse(ajax.responseText);
+            if(jsonObject.status != "success"){
+                unsuccessfulAPIcalls++;
+                console.log("Nr of Errors: " + unsuccessfulAPIcalls);
+            }
         }
     }
     ajax.send();
