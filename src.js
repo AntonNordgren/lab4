@@ -47,7 +47,6 @@ addBookBtn.addEventListener('click', function(event) {
         addBookMessage.innerHTML = "Please Enter valid input";
     }
     else{
-        addBookMessage.innerHTML = "Valid Input!";
         ajax.open('get', url + "?op=insert&key=" + receivedKey + "&title=" + title + "&author=" + author);
         ajax.onreadystatechange = function(event) {
             if(ajax.readyState == 4 && ajax.status == 200) {
@@ -66,18 +65,25 @@ addBookBtn.addEventListener('click', function(event) {
 
 viewBookBtn.addEventListener("click", function(event) {
     ajax.open("get", url + "?op=select&key=" + receivedKey);
+    
     ajax.onreadystatechange = function(event) {
         if(ajax.readyState == 4 && ajax.status == 200) {
-            console.log(ajax.responseText);
-            let jsonObject = ajax.responseText;
             
-            jsonObject = JSON.parse(jsonObject);
-            
+            let jsonObject = JSON.parse(ajax.responseText);
             let result = "";
+            
+            if(jsonObject.status != "success" || jsonObject.data == undefined){
+                listOfBooks.innerHTML = jsonObject.message + " Please try again!";
+            }
+            else if(jsonObject.data.length == 0){
+                listOfBooks.innerHTML = "No books added!";
+            }
+            else{
             for(let i = 0; i < jsonObject.data.length; i++) {
                 result += "#" + (i+1) + ", " + jsonObject.data[i].title + " by " + jsonObject.data[i].author + ", ID: " + jsonObject.data[i].id + "<br>";
             }
             listOfBooks.innerHTML = result;
+        }
         }
     }
     ajax.send();
