@@ -4,42 +4,46 @@
         <title>Lab4</title>
         <meta charset = "utf-8">
         <link href = "style.css" rel = "stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     </head>
     <body>
-        <h1 id = "header">Bokkatalog</h1>
+        <h1 id = "header">The book cataloge</h1>
         <div class = "DIV">
             <form>
-                <input type="button" value = "Request API key" id = "requestBtn">
+                <input type="button" value = "Request API key" id = "requestBtn" class="Btn">
             </form>
             Received:<span id = "apiKey"></span>
         </div>
-        
+
         <div class = "DIV">
+          <p>Add book to the cataloge</p>
             <form id = "addBookForm">
-                <input type = "button" value = "Add Book" id = "addBookBtn">
                 <input type = "text" placeholder = "Title" id = "titleBox">
                 <input type = "text" placeholder = "Author" id = "authorBox">
+                <input type = "button" value = "Add Book" id = "addBookBtn" class="Btn">
             </form>
             <div id = "addBookMessage"></div>
         </div>
-        
+
         <div class = "DIV">
+          <p>View the books in the cataloge</p>
             <form>
-                <input type="button" value = "View Books" id = "viewBookBtn">
+                <input type="button" value = "View Books" id = "viewBookBtn" class="Btn">
             </form>
             <ul id = "listOfBooks">
             </ul>
         </div>
-        
+
         <div class = "DIV">
+          <p>Delete book from the cataloge</p>
             <form id = "deleteBookForm">
-                <input type = "button" value = "Delete Book" id = "deleteBtn">
+                <input type = "button" value = "Delete Book" id = "deleteBtn" class="Btn">
             </form>
             <input type = "text" placeholder="ID" id = "deleteBookID">
         </div>
-        
+
         <input type =  "button" value = "kolla databasen" id = "test">
-        
         <script type = "text/javascript" src = "src.js"></script>
     </body>
 </html>

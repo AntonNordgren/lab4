@@ -26,16 +26,19 @@ window.addEventListener("load", function(event) {
 });
 
 requestBtn.addEventListener('click', function(event) {
-    ajax.open('get', url + "?requestKey");
-    ajax.onreadystatechange = function(event) {
-        if(ajax.readyState == 4 && ajax.status == 200) {
-            console.log("Request Key Succeeded!");
-            let JSONobject = JSON.parse(ajax.responseText);
-            receivedKey = JSONobject.key;
-            apiKey.innerHTML = receivedKey;
-        }
-    }
-    ajax.send();
+    fetch(url + "?requestKey")
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(json) {
+        console.log("Request key Succeeded!");
+        receivedKey = json.key;
+        apiKey.innerHTML = receivedKey;
+    })
+    .catch(function(error) {
+        console.log("Error!");
+        unsuccessfulAPIcalls++;
+    });
 });
 
 addBookBtn.addEventListener('click', function(event) {
@@ -47,35 +50,34 @@ addBookBtn.addEventListener('click', function(event) {
         addBookMessage.innerHTML = "Please Enter valid input";
     }
     else{
-        ajax.open('get', url + "?op=insert&key=" + receivedKey + "&title=" + title + "&author=" + author);
-        ajax.onreadystatechange = function(event) {
-            if(ajax.readyState == 4 && ajax.status == 200) {
-                let jsonObject = JSON.parse(ajax.responseText);
-                if(jsonObject.status == "error") {
-                    addBookMessage.innerHTML = "Error message: " + jsonObject.message + " Please try again!";
-                    unsuccessfulAPIcalls++;
-                    console.log("Nr of errors " + unsuccessfulAPIcalls);
-                }
-                else{
-                    addBookMessage.innerHTML = "Book Stored with ID = " + jsonObject.id;
-                }
+        fetch(url + "?op=insert&key=" + receivedKey + "&title=" + title + "&author=" + author)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(json) {
+            if(json.status == "error") {
+                addBookMessage.innerHTML = "Error message: " + json.message + " Please try again!";
+                unsuccessfulAPIcalls++;
+                console.log("Nr of errors " + unsuccessfulAPIcalls);
             }
-        }
-        ajax.send();
+            else{
+                addBookMessage.innerHTML = "Book Stored with ID = " + json.id;
+            }
+        });
     }
 });
 
 viewBookBtn.addEventListener("click", function(event) {
-    ajax.open("get", url + "?op=select&key=" + receivedKey);
-    ajax.onreadystatechange = function(event) {
-        if(ajax.readyState == 4 && ajax.status == 200) {
-            let jsonObject = JSON.parse(ajax.responseText);
-            
-            while(listOfBooks.firstChild) {
+    fetch(url + "?op=select&key=" + receivedKey)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(json) {
+        while(listOfBooks.firstChild) {
                 listOfBooks.removeChild(listOfBooks.firstChild);
             }
             
-            for(let i = 0; i < jsonObject.data.length; i++){
+            for(let i = 0; i < json.data.length; i++){
                 let newNode = document.createElement("LI");
                 
                 let titleSpan = document.createElement("span");
@@ -93,50 +95,42 @@ viewBookBtn.addEventListener("click", function(event) {
                 authorInput.type = "text";
                 authorInput.placeholder = "Enter Author";
                 
-                titleSpan.innerHTML = jsonObject.data[i].title;
+                titleSpan.innerHTML = json.data[i].title;
                 inbetweenSpan.innerHTML = " by ";
-                authorSpan.innerHTML = jsonObject.data[i].author;
-                idSpan.innerHTML = ", ID: " + jsonObject.data[i].id;
+                authorSpan.innerHTML = json.data[i].author;
+                idSpan.innerHTML = ", ID: " + json.data[i].id;
                 
                 titleSpan.addEventListener("click", function(event) {
                     titleSpan.style.display = "none";
                     titleInput.style.display = "inline";
-                    
-                    titleInput.addEventListener("blur", function(event) {
-                        titleSpan.innerHTML = titleInput.value;
-                        titleInput.style.display = "none";
-                        titleSpan.style.display = "inline";
+                });
+                
+                titleInput.addEventListener("blur", function(event) {
+                    titleSpan.innerHTML = titleInput.value;
+                    titleInput.style.display = "none";
+                    titleSpan.style.display = "inline";
                         
-                        ajax.open("get", url + "?op=update&key=" + receivedKey + "&id=" +
-                        jsonObject.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML);
-                        ajax.onreadystatechange = function(event) {
-                            if(ajax.status = 200 && ajax.readyState == 4){
-                                console.log(ajax.response);
-                            }
-                        }
-                        ajax.send();
-                        
+                    fetch(url + "?op=update&key=" + receivedKey + "&id=" +
+                    json.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML)
+                    .then(function(response) {
+                        console.log(response.status);
                     });
                 });
                 
                 authorSpan.addEventListener("click", function(event) {
                     authorSpan.style.display = "none";
                     authorInput.style.display = "inline";
-                    
-                    authorInput.addEventListener("blur", function(event) {
-                        authorSpan.innerHTML = authorInput.value;
-                        authorInput.style.display = "none";
-                        authorSpan.style.display = "inline";
+                });
+                
+                authorInput.addEventListener("blur", function(event) {
+                    authorSpan.innerHTML = authorInput.value;
+                    authorInput.style.display = "none";
+                    authorSpan.style.display = "inline";
                         
-                        ajax.open("get", url + "?op=update&key=" + receivedKey + "&id=" +
-                        jsonObject.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML);
-                        ajax.onreadystatechange = function(event) {
-                            if(ajax.status = 200 && ajax.readyState == 4){
-                                console.log(ajax.response);
-                            }
-                        }
-                        ajax.send();
-                        
+                    fetch(url + "?op=update&key=" + receivedKey + "&id=" +
+                    json.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML)
+                    .then(function(response) {
+                        console.log(response.status);
                     });
                 });
                 
@@ -148,26 +142,18 @@ viewBookBtn.addEventListener("click", function(event) {
                 newNode.appendChild(idSpan);             
                 listOfBooks.appendChild(newNode);
             }
-            
-        }
-    }
-    ajax.send();
+    });
 });
 
 deleteBtn.addEventListener("click", function(event) {
     let id = document.getElementById("deleteBookID").value;
-    ajax.open("get", url + "?op=delete&key=" + receivedKey + "&id=" + id);
-    ajax.onreadystatechange = function(event) {
-        if(ajax.readyState == 4 && ajax.status == 200) {
-            console.log(ajax.responseText);
-            let jsonObject = JSON.parse(ajax.responseText);
-            if(jsonObject.status != "success"){
-                unsuccessfulAPIcalls++;
-                console.log("Nr of Errors: " + unsuccessfulAPIcalls);
-            }
-        }
-    }
-    ajax.send();
+    fetch(url + "?op=delete&key=" + receivedKey + "&id=" + id)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(json) {
+        console.log(json.status);
+    });
 });
 
 let databasKnapp = document.getElementById("test");
