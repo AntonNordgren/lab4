@@ -18,6 +18,10 @@ let changeBtn = document.getElementById("changeBtn");
 let deleteBtn = document.getElementById("deleteBtn");
 let deleteBookId = document.getElementById("deleteBookID");
 
+let searchBtn = document.getElementById("searchBtn");
+let searchBookTitleInput = document.getElementById("searchBookTitle");
+let searchBookResult = document.getElementById("searchResult");
+
 let unsuccessfulAPIcalls = 0;
 
 window.addEventListener("load", function(event) {
@@ -113,7 +117,7 @@ viewBookBtn.addEventListener("click", function(event) {
                     fetch(url + "?op=update&key=" + receivedKey + "&id=" +
                     json.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML)
                     .then(function(response) {
-                        console.log(response.status);
+                        console.log(response);
                     });
                 });
                 
@@ -130,7 +134,7 @@ viewBookBtn.addEventListener("click", function(event) {
                     fetch(url + "?op=update&key=" + receivedKey + "&id=" +
                     json.data[i].id + "&title=" + titleSpan.innerHTML+ "&author=" + authorSpan.innerHTML)
                     .then(function(response) {
-                        console.log(response.status);
+                        console.log(response);
                     });
                 });
                 
@@ -153,6 +157,52 @@ deleteBtn.addEventListener("click", function(event) {
     })
     .then(function(json) {
         console.log(json.status);
+    });
+});
+
+searchBtn.addEventListener("click", function(event) {
+    let bookTitle = searchBookTitleInput.value;
+    
+    bookTitle = bookTitle.split(" ").join("+");
+    
+    console.log(bookTitle);
+    
+    let libUrl = "http://openlibrary.org/search.json?title=" + bookTitle;
+    fetch(libUrl)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(json) {
+        console.log(json);
+        
+        while(searchBookResult.firstChild) {
+            searchBookResult.removeChild(searchBookResult.firstChild);
+        }
+        for(let i = 0; i < 5; i++) {
+            let newSearchNode = document.createElement("LI");
+            let newButton = document.createElement("input");
+            newButton.type = "button";
+            newButton.value = "Add this book"
+            newSearchNode.innerHTML = json.docs[i].title + " by " +
+            json.docs[i].author_name;
+            
+            newButton.addEventListener("click", function(event) {
+                let searchedBookTitle = json.docs[i].title;
+                let searchedBookAuthor = json.docs[i].author_name;
+                
+                fetch(url + "?op=insert&key=" + receivedKey + "&title=" + searchedBookTitle + "&author=" + searchedBookAuthor)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(json) {
+                    console.log(json);
+                });
+                
+            });
+            
+            newSearchNode.appendChild(newButton);
+            searchBookResult.appendChild(newSearchNode);
+        }
     });
 });
 
