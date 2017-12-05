@@ -13,7 +13,7 @@
             <form>
                 <input type="button" value = "Request API key" id = "requestBtn" class="Btn">
             </form>
-            Received:<span id = "apiKey"></span>
+            <p>Received:</p><span id = "apiKey"></span>
         </div>
 
         <div class = "DIV">
@@ -28,6 +28,8 @@
 
         <div class = "DIV">
           <p>View the books in the cataloge</p>
+            <div id = "viewResult">
+            </div>
             <form>
                 <input type="button" value = "View Books" id = "viewBookBtn" class="Btn">
             </form>
@@ -37,20 +39,23 @@
 
         <div class = "DIV">
           <p>Delete book from the cataloge</p>
+            <div id = "deleteResult">
+            </div>
             <form id = "deleteBookForm">
+                <input type = "text" placeholder="ID" id = "deleteBookID">
                 <input type = "button" value = "Delete Book" id = "deleteBtn" class="Btn">
             </form>
-            <input type = "text" placeholder="ID" id = "deleteBookID">
+
         </div>
-        
+
         <div class = "DIV">
           <p>Search book from OpenLibrary</p>
             <form id = "searchBookForm">
                 <input type = "text" placeholder="Enter Title" id = "searchBookTitle">
                 <input type = "button" value = "Search Book" id = "searchBtn" class="Btn">
+                <div id = "addSearchBookResult"></div>
             </form>
-            <ul id = "searchResult">
-            </ul>
+            <ul id = "searchResult"></ul>
         </div>
 
         <input type =  "button" value = "kolla databasen" id = "test">
