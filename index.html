@@ -8,12 +8,13 @@
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     </head>
     <body>
-        <h1 id = "header">The book cataloge</h1>
+        <h1 id = "header">The Book Cataloge</h1>
         <div class = "DIV">
             <form>
                 <input type="button" value = "Request API key" id = "requestBtn" class="Btn">
             </form>
-            <p>Received:</p><span id = "apiKey"></span>
+            <p>Received:</p>
+            <p id = "apiKey"></p>
         </div>
 
         <div class = "DIV">
@@ -48,8 +49,8 @@
 
         </div>
 
-        <div class = "DIV">
-          <p>Search book from OpenLibrary</p>
+        <div class = "DIV" id = 'openLibrary'>
+          <p>Search book on OpenLibrary</p>
             <form id = "searchBookForm">
                 <input type = "text" placeholder="Enter Title" id = "searchBookTitle">
                 <input type = "button" value = "Search Book" id = "searchBtn" class="Btn">
@@ -57,8 +58,12 @@
             </form>
             <ul id = "searchResult"></ul>
         </div>
-
-        <input type =  "button" value = "kolla databasen" id = "test">
+        
+        <div class = "DIV" id = "unsuccessfulDiv">
+            <p>Unsuccessful Calls</p>
+            <div id = "unsuccessfulCalls"></div>
+        </div>
+        
         <script type = "text/javascript" src = "src.js"></script>
     </body>
 </html>

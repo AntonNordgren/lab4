@@ -25,6 +25,7 @@ let searchBookTitleInput = document.getElementById("searchBookTitle");
 let searchBookResult = document.getElementById("searchResult");
 let addSearchBookResult = document.getElementById("addSearchBookResult");
 
+let unsuccessfulCalls = document.getElementById("unsuccessfulCalls");
 let unsuccessfulAPIcalls = 0;
 
 window.addEventListener("load", function(event) {
@@ -63,12 +64,12 @@ addBookBtn.addEventListener('click', function(event) {
         })
         .then(function(json) {
             if(json.status == "error") {
-                addBookMessage.innerHTML = "Error message: " + json.message + " Please try again!";
+                addBookMessage.innerHTML = "<p>Error, Please try again!</p>";
                 unsuccessfulAPIcalls++;
-                console.log("Nr of errors " + unsuccessfulAPIcalls);
+                unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
             }
             else{
-                addBookMessage.innerHTML = "Book Stored with ID = " + json.id;
+                addBookMessage.innerHTML = "<p>Book Stored with ID = " + json.id + "</p>";
             }
         });
     }
@@ -85,6 +86,8 @@ viewBookBtn.addEventListener("click", function(event) {
             while(listOfBooks.firstChild) {
             listOfBooks.removeChild(listOfBooks.firstChild);
         }
+            unsuccessfulAPIcalls++;
+            unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
             viewResult.innerHTML = "Error, please try again!";
         }
         else{
@@ -137,6 +140,8 @@ viewBookBtn.addEventListener("click", function(event) {
                     }
                     else{
                         viewResult.innerHTML = "Try again!";
+                        unsuccessfulAPIcalls++;
+                        unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
                     }
                 });
             });
@@ -162,6 +167,8 @@ viewBookBtn.addEventListener("click", function(event) {
                     }
                     else{
                         viewResult.innerHTML = "Try again!";
+                        unsuccessfulAPIcalls++;
+                        unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
                     }
                 });
             });
@@ -188,6 +195,8 @@ deleteBtn.addEventListener("click", function(event) {
     .then(function(json) {
         if(json.status != "success"){
             deleteResult.innerHTML = "Error, please try again!";
+            unsuccessfulAPIcalls++;
+            unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
         }
         else{
             deleteResult.innerHTML = "Book Deleted";
@@ -235,6 +244,8 @@ searchBtn.addEventListener("click", function(event) {
                     }
                     else{
                         addSearchBookResult.innerHTML = "Error, please try again";
+                        unsuccessfulAPIcalls++;
+                        unsuccessfulCalls.innerHTML = unsuccessfulAPIcalls;
                     }
                 });
                 
@@ -245,17 +256,3 @@ searchBtn.addEventListener("click", function(event) {
         }
     });
 });
-
-let databasKnapp = document.getElementById("test");
-databasKnapp.addEventListener("click", function(event) {
-    ajax.open("get", url + "?op=select&key=" + receivedKey);
-    ajax.onreadystatechange = function(event) {
-        if(ajax.readyState == 4 && ajax.status == 200) {
-            console.log(ajax.responseText);
-        }
-    }
-    ajax.send();
-});
-
-
-
