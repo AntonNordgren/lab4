@@ -68,9 +68,11 @@ ul {
 }
 
 #searchResult input {
-  position: absolute;
-  right: 20%;
-  width: 20%;
+  position: relative;
+    width: 20%;
+    left: 79%;
+    right: 10px;
+    bottom: 22px;
 }
 
 li {
@@ -82,9 +84,16 @@ li {
 .Btn:hover, #searchResult input:hover {
   background-color: white;
   color: black;
-  border: solid black 1px;
+  border: solid black 1x;
   cursor: pointer;
 }
+
+.searchButton{
+    position: absolute;
+    right: 100px;
+    color: red;
+}
+
 input {
   height: 30px;
   width: 50%;
@@ -104,7 +113,14 @@ p {
 #openLibrary {
     text-align: left;
     font-size: 80%;
-    }
+}
+
+.searchItem p {
+    position: relative;
+    top: 16%;
+    left: 10px;
+    text-align: left;
+}
 
 @media (max-width: 750px) {
 body {

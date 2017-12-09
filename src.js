@@ -233,10 +233,11 @@ searchBtn.addEventListener("click", function(event) {
         for(let i = 0; i < 5; i++) {
             let newSearchNode = document.createElement("LI");
             let newButton = document.createElement("input");
+            newSearchNode.className = "searchItem";
+            newButton.className = "searchButton";
             newButton.type = "button";
             newButton.value = "Add this book"
-            newSearchNode.innerHTML = json.docs[i].title + " by " +
-            json.docs[i].author_name;
+            newSearchNode.innerHTML = "<p>" + json.docs[i].title + " by " + json.docs[i].author_name + "</p>";
             
             newButton.addEventListener("click", function(event) {
                 let searchedBookTitle = json.docs[i].title;
