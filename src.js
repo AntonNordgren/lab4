@@ -1,6 +1,5 @@
 
 let url = "https://www.forverkliga.se/JavaScript/api/crud.php";
-let ajax = new XMLHttpRequest();
 let requestBtn = document.getElementById("requestBtn");
 let addBookBtn = document.getElementById("addBookBtn");
 let addBookMessage = document.getElementById("addBookMessage");
@@ -27,11 +26,6 @@ let addSearchBookResult = document.getElementById("addSearchBookResult");
 
 let unsuccessfulCalls = document.getElementById("unsuccessfulCalls");
 let unsuccessfulAPIcalls = 0;
-
-window.addEventListener("load", function(event) {
-    ajax.open('get', url);
-    ajax.send();
-});
 
 requestBtn.addEventListener('click', function(event) {
     fetch(url + "?requestKey")
@@ -125,7 +119,14 @@ viewBookBtn.addEventListener("click", function(event) {
             });
                 
             titleInput.addEventListener("blur", function(event) {
-                titleSpan.innerHTML = titleInput.value;
+                
+                if(titleInput.value === ""){
+                    titleSpan.innerHTML = "The Title";
+                }
+                else{
+                    titleSpan.innerHTML = titleInput.value;
+                }
+                
                 titleInput.style.display = "none";
                 titleSpan.style.display = "inline";
                         
@@ -152,7 +153,14 @@ viewBookBtn.addEventListener("click", function(event) {
             });
                 
             authorInput.addEventListener("blur", function(event) {
-                authorSpan.innerHTML = authorInput.value;
+                
+                if(authorInput.value === ""){
+                    authorSpan.innerHTML = "The Author";
+                }
+                else{
+                    authorSpan.innerHTML = authorInput.value;
+                }
+                
                 authorInput.style.display = "none";
                 authorSpan.style.display = "inline";
                         
