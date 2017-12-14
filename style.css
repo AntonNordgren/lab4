@@ -122,6 +122,10 @@ p {
     text-align: left;
 }
 
+#addSearchResult{
+    text-align: center;
+}
+
 @media (max-width: 750px) {
 body {
   flex-direction: column;
