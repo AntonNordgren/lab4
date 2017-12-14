@@ -219,7 +219,7 @@ searchBtn.addEventListener("click", function(event) {
     
     console.log(bookTitle);
     
-    let libUrl = "http://openlibrary.org/search.json?title=" + bookTitle;
+    let libUrl = "https://openlibrary.org/search.json?title=" + bookTitle;
     fetch(libUrl)
     .then(function(response){
         return response.json();
